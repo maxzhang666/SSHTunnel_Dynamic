@@ -2,6 +2,7 @@ import asyncio
 import io
 import logging
 import os.path
+import sys
 
 import asyncssh
 import errno
@@ -121,7 +122,7 @@ class SSHProxyControler:
         t1 = threading.Thread(target=myssh.thr, args=(lambda: self.stop_thread,))
         # t1.daemon = True
         t1.start()
-        return myssh.waitResult(), self.host, self.port
+        return t1, myssh.waitResult(), self.host, self.port
 
     def stop(self):
         self.stop_thread = True
@@ -129,7 +130,7 @@ class SSHProxyControler:
 
 def buildTunnel(host, username, password, port, key=None):
     controlssh = SSHProxyControler(host, username, password, port, key)
-    sshstatus, host, port = controlssh.start()
+    t1, sshstatus, host, port = controlssh.start()
     logging.info("conn {},{},local bind :{}".format('success' if sshstatus else 'fail', host, port))
     if sshstatus:
         # time.sleep(30)
@@ -137,6 +138,8 @@ def buildTunnel(host, username, password, port, key=None):
         logger.info('SSH is Start')
     else:
         logger.info('Can not connect to SSH')
+        controlssh.stop()
+        sys.exit()
 
 
 if __name__ == '__main__':
