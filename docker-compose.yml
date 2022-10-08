@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  opentunneller:
+    image: maxzhang666/opentunneller
+    container_name: opentunneller
+    hostname: opentunneller
+    ports:
+      # 本地端口映射
+      - "80:80"
+    environment:
+      # 目标ssh主机地址 后缀端口号
+      - ssh_host=1.1.1.1
+      # 用户密码
+      - ssh_user=root
+      - ssh_pass=123456
+      # 本地sockt端口
+      - ssh_local_port=22
+      # 私钥文件
+      - ssh_private_key=private.key
+    volumes:
+      - ./your_path/private.key:/root/private.key
+    restart: always
