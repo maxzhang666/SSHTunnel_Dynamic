@@ -60,11 +60,12 @@ class OpenSSH:
             # print(i, 'Listening on port %s...' % listener.get_port())
 
             while not stop():
-                await asyncio.sleep(0.1)
-                await listener.wait_closed()
+                # await asyncio.sleep(0.1)
+                await asyncio.sleep(1)
+                # await listener.wait_closed()
             # await asyncio.sleep(30)
             conn.close()
-            await listener.wait_closed()
+            # await listener.wait_closed()
             logging.info('SSH is Stoped')
 
     def thr(self, stop):
@@ -136,6 +137,7 @@ def buildTunnel(host, username, password, port, key=None):
         # time.sleep(30)
         # controlssh.stop()
         logger.info('SSH is Start')
+
     else:
         logger.info('Can not connect to SSH')
         controlssh.stop()
