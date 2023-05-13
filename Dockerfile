@@ -11,6 +11,6 @@ RUN chmod +x open_tunnel.py
 
 RUN pip install -r requirements.txt
 
-HEALTHCHECK --interval=1m --timeout=3s --retries=3 --start-period=1m CMD curl -x socks5h://127.0.0.1:10080 -fs https://www.baidu.com | grep baidu || exit 1
+HEALTHCHECK --interval=1m --timeout=3s --retries=3 --start-period=1m CMD curl -x socks5h://127.0.0.1:10080 -fs https://www.icanhazip.com || exit 1
 
 CMD [ "python","-u", "open_tunnel.py" ]
